@@ -20,9 +20,6 @@ UGrabber::UGrabber()
 void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	UE_LOG(LogTemp, Warning, TEXT("Grabber reporting for duty!"));
 }
 
 
@@ -36,8 +33,14 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 	FRotator PlayerRotation;
 
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(PlayerLocation, PlayerRotation);
-	UE_LOG(LogTemp, Warning, TEXT("Player position: %s; Rotation: %s"),
-		*PlayerLocation.ToString(),
-		*PlayerRotation.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Player position: %s; Rotation: %s"),
+	//	*PlayerLocation.ToString(),
+	//	*PlayerRotation.ToString());
+
+	FVector LineTraceEnd = PlayerLocation + PlayerRotation.Vector() * Reach;
+
+	// Draw a red trace in the world to visualise
+	DrawDebugLine(GetWorld(), PlayerLocation, LineTraceEnd, FColor(255, 0, 0),
+		false, 0.0f, 0.0f, 10.0f);
 }
 
